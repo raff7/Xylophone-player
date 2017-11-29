@@ -71,17 +71,17 @@ ser = serial.Serial('COM18', 9600)
 # c = note(31.5,18,0)
 # notes = numpy.array([C,C,g,g,a,a,g,f,f,e,e,d,d,C])
 # delays = numpy.array([500,500,500,500,500,500,500,1000,500,500,500,500,500,500,500])
-f = note(29,15,11)
-d = note(30,8.5,11)
-e= note(30,12,11)
-C = note(31, 5,10)
-g = note(27,18.5,11.5)
+f= note(31.6,3.9,5)
+d= note(32.2,-3.5,5)
+e= note(31.6,0.5,5)
+C = note(32.5, -7,5.5)
+g = note(31.5,7.3,5)
 a = note(28,19,18)
 b = note(26,22.7,10)
 c = note(25,25,11)
 #g bells
 notes = numpy.array([e,e,e ,e,e,e ,e,g,C,d,e,f,f,f,f,f,e,e,e,e,d,d,e,d,g])
-delays = numpy.array([250,250,250,600,250,250,500,250,250,250,250,1200,250,250,600,100,250,250,600,100,250,250,250,250,600])
+delays = numpy.array([250,250,250,600,250,250,600,250,250,250,250,1200,250,250,600,30,250,250,600,30,250,250,250,250,700])
 #supemario
 # notes = numpy.array([e,e,e ,e,e,e ,e,g,C,d,e])
 # delays = numpy.array([250,250,250,600,250,250,500,250,250,250,250,250])
@@ -91,4 +91,8 @@ ser.write(makeMelody(notes,delays))
 
 
 
+
+
+# 
+# moveToCoordinates(10, 10, 10)
 

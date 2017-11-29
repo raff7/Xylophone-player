@@ -48,68 +48,49 @@ void moveToAngle(double angle1,double angle2,double angle3){
   servo2.write(s2Angle0-angle2);
   servo3.write(s3Angle0+angle3);
 }
-void approachAngle(float a1,float a2,float a3){
 
+
+void approachAngle(float a1,float a2, float a3){
+  
+  int _delay=70;
+  double phase[] = {0.3,0.50,1};
   float d1 = a1-(s1Angle0-servo1.read());
   float d2 = a2-(s2Angle0-servo2.read());
   float d3 = a3-(servo3.read()-s3Angle0);
-  String ss1 = ("d1: "+(String)d1+"d2: "+(String)d2+" d3: "+(String)d3);
-  Serial.println(ss1+"\n/n----------------------------");
-  boolean s1bool = true;
-  boolean s2bool = true;
-  boolean s3bool = true;
-  int s1d;
-  int s2d;
-  int s3d;
-  while(true){
-  Serial.println("Position before "+(String)(s1Angle0-servo1.read())+" "+(String)(s2Angle0-servo2.read())+" "+(String)(servo3.read()-s3Angle0));
-    float d1 = a1-(s1Angle0-servo1.read());
-    float d2 = a2-(s2Angle0-servo2.read());
-    float d3 = a3-(servo3.read()-s3Angle0);
-    if(abs(d1)>treshold){
-      s1d = (-d1*Mspeed/abs(d1));
+  if(d1>0 or d2>0 or d3>0){
+    for(int i=0;i<sizeof(phase)/sizeof(phase[0]);i++){
+      float d1 = a1-(s1Angle0-servo1.read());
+      float d2 = a2-(s2Angle0-servo2.read());
+      float d3 = a3-(servo3.read()-s3Angle0);
+      float s1d = (-d1)*phase[i];
+      float s2d = (-d2)*phase[i];
+      float s3d = (d3)*phase[i];
       servo1.write(servo1.read()+s1d);
-    }else{
-      s1bool = false;
-    }
-    if(abs(d2)>treshold){
-      s2d = (-d2*Mspeed/abs(d2));
       servo2.write(servo2.read()+s2d);
-    }else{
-      s2bool = false;
-    }
-    if(abs(d3)>treshold){
-      s3d = (d3*Mspeed/abs(d3));
       servo3.write(servo3.read()+s3d);
-    }else{
-      s3bool = false;
+      delay(_delay);
     }
-     Serial.println("Position after "+(String)(s1Angle0-servo1.read())+" "+(String)(s2Angle0-servo2.read())+" "+(String)(servo3.read()-s3Angle0));
-
-    if(!s3bool and !s2bool and !s1bool){
-      moveToAngle(a1,a2,a3);
-      break;
-    }
-    delay(approachingDelay);
   }
-
-  
-  
+  //moveToAngle(a1,a2,a3);
 }
 void playNote2(double a1,double a2,double a3,int t){
+  int timer = millis();
   approachAngle(a1,a2,a3);
-  delay(t);
+  while(millis()-timer < t){
+    delay(1);
+  }
   hit(a1,a2,a3);
-  delay(100);
 
 }
-void playNote(double a1,double a2,double a3,int t){
-  moveToAngle(a1,a2,a3);
-  delay(t);
-  hit(a1,a2,a3);
-  delay(100);
-
-}
+void playNote(double a1,double a2,double a3,int t){}
+//  int timer = millis();
+//  moveToAngle(a1,a2,a3);
+//  while(millis()-timer < t){
+//    delay(1);
+//  }
+//  hit(a1,a2,a3);
+//    delay(100);
+//}
 void readInput() {
     if (Serial.available()) {
       String type = Serial.readStringUntil(':');
