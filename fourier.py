@@ -25,5 +25,5 @@ def fu(X):
         dupsko[i] = sum(dupa)
     #print dupsko
     return dupsko
-print fu(X)
+print (fu(X))
 #0
