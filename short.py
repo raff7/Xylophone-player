@@ -9,19 +9,19 @@ import statistics
 def short(X):
     #length of the signal
     n = len(X)
-    print (n)
+    print n
     # window
     # the window, so basically which part of the orginal signal will be processed by fourier transfrom
     win  = n/10
-    print (win)
+    print win
     #hop size
     #how much do we move, so if you see this the windows will overlap, which is one of the basis of sft
     hop = win/2
-    print(hop)
-    Y = [0]*n
-    Z = [0] * hop
+    print hop
+    spectrumArray = [0]*n
+    fourierArray = [0] * n
     Jup = []
-    print (Jup)
+    print Jup
     j = 0
 
 # again magic, so for each of the window you perform normal fourier, but here instead of doing i+1, you use hop, to skip some
@@ -32,11 +32,19 @@ def short(X):
 
         aaa = fu(conca)
         #lo = np.abs(aaa * np.conj(aaa))
-        Jup = Jup + aaa
+        autopower = np.abs(aaa * np.conj(aaa))
+        #Jup = Jup + autopower
+        #print autopower
+        fourierArray[i] = aaa
+        spectrumArray[i] = autopower
+        #Jup = Jup + aaa
         #print  lo
         #print Jup
 
+        #Jup = Jup + aaa
         Jup = Jup + aaa
+    print spectrumArray
+    print fourierArray
     return Jup
 
 
@@ -59,44 +67,6 @@ def fu(X):
         dupsko[i] = sum(dupa)
     #print dupsko
     return dupsko
-
-"""""
-
-def power(spectrum):
-    #autopower should save the powerSpectrum for each window used
-    length=len(spectrum)
-    autopower=[0]*length
-    autopower = np.abs(spectrum * np.conj(spectrum)) #Compute the power spectrum
-    print(autopower)
-    autopower = 20 * np.log10(autopower)  # scale to db
-
-    return(autopower)
-
-def peakPicking(powerSpectrum, timeDomain):
-    #Idea: We play notes to arm - arm saves notes after analysis (peaks) in database
-    #Maps those in database to keys
-    #Then it can map maximum freq. to keys and play the keys 
-    #powerSpectrum contains power of windows at i
-    #timeDomain contains STFT for windows at i
-    timePoints=len(timeDomain)
-    peaks=[0]*timePoints
-    onset=[0]*timePoints
-    velocity=[0]*timePoints
-    for i in range (0,timePoints):
-        powerWindow = powerSpectrum[i]
-        timeWindow = timeDomain[i]
-        signalMaxPower=0
-        if (powerWindow >= 0.01)
-            #need to find the freq. with maximum power in Power domain that corresponds to timeDomain
-            #peaks[i]=maxValue
-
-    #onset=time the freq. start
-    #offset=time the freq. ends
-    #
-    #For playing it's easier to assume uniform velocity,onset and offset for now
-    return (peaks, onset, velocity)
-"""""
-
 #some example of the signal
 X = [1,2,3,4,5,6,7,8,9,10,12,12,32,1,2,3,4,1,43,3,2,5,454,3,643,2,43,43,432,5,5,3,34,2,23,35,4,64,5,23,32,3,5,235,42,43,4,536,43,45,2,43,2,32,532,532,]
 fupa = short(X)
@@ -115,8 +85,8 @@ def half(X):
 """
 
 dupa = short(X)
-print (len(X))
-print (len(fupa))
+print len(X)
+print len(fupa)
 plt.plot(dupa)
 plt.show()
 
