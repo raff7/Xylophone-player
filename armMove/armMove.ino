@@ -18,8 +18,8 @@ double s1Angle0 = 92;
 int previousMillis = 0;
 int intervall = 10;
 double delta1 = 0;
-double delta2 = -3;
-double delta3 = 7;
+double delta2 = -0.01;
+double delta3 = 10;
 void setup() {
   // put your setup code here, to run once:
   servo1.attach(motorPin1);
@@ -40,7 +40,7 @@ void hit(double a1, double a2,double a3){
         servo1.write(servo1.read()+delta1);
         servo2.write(servo2.read()+delta2);
         servo3.write(servo3.read()+delta3);
-        delay(100);
+        delay(70);
         moveToAngle(a1,a2,a3);
 }
 void moveToAngle(double angle1,double angle2,double angle3){
